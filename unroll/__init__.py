@@ -1,4 +1,4 @@
 
 
-from unroll import unroll, accumulate, compose
-from utils import fmap, invoke
+from unroll import unroll, compose
+from utils import fmap, call

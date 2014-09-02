@@ -14,8 +14,8 @@ def fmap(func):
     return imapper
 
 
-def invoke(outer, *args, **kwargs):
-    """Used for a very direct equivalent of multiline comprehension."""
-    def inner(func):
-        return outer(func(*args, **kwargs))
-    return inner
+def call(*args, **kwargs):
+    """Decorator. Call function using provided arguments."""
+    def outer(func):
+        return func(*args, **kwargs)
+    return outer

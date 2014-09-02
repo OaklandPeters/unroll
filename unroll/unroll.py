@@ -15,23 +15,23 @@ Written and tested for Python 2.6
 """
 __author___ = 'Oakland Peters (oakland.peters@gmail.com)'
 #VERISON: Pre-releases: a:alpha, b:beta, c/rc-release candidate
-__verison__ = '0.1a' 
+__verison__ = '0.2' 
 __copyright__ = 'Copyright (c) 2014 Oakland Peters'
 __license__ = 'MIT'
 
 import functools
 
 
-def accumulate(*converters):
+
+def unroll(*converters):
     """Wraps output of function with one or more converter functions."""
-    #Validation
     if len(converters) == 0:
         converters = (iter,)
     for i, func in enumerate(converters):   #tuple of callable
         assert(callable(func)), "converter #{0} is not callable.".format(i)
     #Compose all converter functions
     convert = compose(*converters)
-    
+     
     @functools.wraps(convert)
     def outer(func): #pylint: disable=C0111
         @functools.wraps(func)
@@ -39,14 +39,6 @@ def accumulate(*converters):
             return convert(func(*args, **kwargs))
         return inner
     return outer
-
-def unroll(*converters):
-    """Used to write the equivalent of multi-line comprehensions."""
-    accumulator = accumulate(*converters)
-    @functools.wraps(accumulator)
-    def invoker(func):  #pylint: disable=C0111
-        return accumulator(func)()
-    return invoker
 
 
 #==============================================================================
