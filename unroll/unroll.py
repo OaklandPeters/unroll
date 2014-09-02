@@ -20,7 +20,9 @@ __copyright__ = 'Copyright (c) 2014 Oakland Peters'
 __license__ = 'MIT'
 
 import functools
+import itertools
 
+__all__ = ['unroll', 'compr']
 
 
 def unroll(*converters):
@@ -48,7 +50,7 @@ def compose(inner, *others):
     """Compose inner function with any number of additional functions."""
     for i, func in enumerate((inner,)+others):
         assert(callable(func)), "function #{0} is not callable.".format(i)
-    
+     
     accumulator = inner
     for func in others:
         accumulator = _compose(accumulator, func) 
@@ -59,3 +61,29 @@ def _compose(inner, outer):
     def composed(*a, **kw ):    #pylint: disable=C0111
         return outer(inner(*a, **kw))
     return composed
+
+def fmap(func):
+    """Functional-sugar for a partial of itertools.imap.
+    functools.partial(itertools.imap, func)
+    See test_exotic_string_concat() for example of use.
+    """
+    #Not required for @unroll, but frequently useful.
+    @functools.wraps(func)
+    def imapper(*args, **kwargs):
+        return itertools.imap(func, *args, **kwargs)
+    return imapper
+
+
+def call(*args, **kwargs):
+    """Decorator. Call function using provided arguments."""
+    def outer(func):
+        return func(*args, **kwargs)
+    return outer
+
+def compr(converter, *args, **kwargs):
+    """Syntactic-sugar for combining @call + @unroll.
+    Only allows converter function to be passed to unroll."""    
+    def outer(func):
+        return call(*args, **kwargs)(unroll(converter)(func))
+    return outer
+    

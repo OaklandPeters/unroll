@@ -3,12 +3,10 @@ import collections
 import types
 if __name__ == "__main__":
     #from unroll import unroll, accumulate, compose
-    from unroll import unroll, compose
-    from utils import fmap, call
+    from unroll import unroll, compose, fmap, call, compr
 else:
     #from .unroll import unroll, accumulate, compose
-    from .unroll import unroll, compose
-    from .utils import fmap, call
+    from .unroll import unroll, compose, fmap, call, compr
 
 
 def is_even(n):
@@ -19,19 +17,18 @@ def even_triples_list(mx):
         if not is_even(n*3) == 0
     ]
 
-class CallTests(unittest.TestCase):
-    def test_call_decorator_simple(self):
-        @call('john')
-        def say_hi(name, extra=""):
-            return "Hello " + name + extra
-            
-        self.assert_( say_hi == "Hello john")
-    
-    def test_call_decorator_complex(self):
-        @call('john', '--extra--')
-        def say_hi(name, extra=""):
-            return "Hello " + name + extra
-        self.assert_(say_hi == "Hello john--extra--")   
+
+
+
+class ComprTests(unittest.TestCase):
+    def test_basic(self):
+        @compr(list, 5)
+        def evens(x):
+            for i in range(x):
+                yield 2*i
+        self.assert_(isinstance(evens, list))
+        self.assertEqual(evens, [0, 2, 4, 6, 8])
+
 
 
 
@@ -55,8 +52,6 @@ class UnrollTests(unittest.TestCase):
         self.assert_(isinstance(output, list))
         self.assertEquals(output, self.expected)
     def test_unroll_invoke_inline(self):
-        """This is the primary use-case."""
-
         def unrolled(mx):
             for n in range(mx):
                 triple = n*3
@@ -64,9 +59,7 @@ class UnrollTests(unittest.TestCase):
                     continue
                 yield triple
         #... the inline use-case looks ugly
-        _unrolled = unroll(list)(unrolled)
-        self.assert_(callable(_unrolled))
-        output = call(self.input)(_unrolled)
+        output = call(self.input)(unroll(list)(unrolled))
         self.assert_(isinstance(output, collections.MutableSequence))
         self.assert_(isinstance(output, list))
         self.assertEquals(output, self.expected)
@@ -129,15 +122,19 @@ class UnrollTests(unittest.TestCase):
  
         output = unrolled()
         self.assertEqual(output, '0, 6, 12')
-         
+
+class FMapTests(unittest.TestCase):
+    def test_basic(self):
+        @call(5)
         @unroll(fmap(str), ''.join)
-        def unR():
+        def unR(mx):
             for n in range(mx):
                 triple = n*3
                 if not is_even(triple):
                     continue
                 yield triple
-
+        
+        self.assertEquals(unR, '0, 6, 12')
 
 class ComposeTests(unittest.TestCase):
     def test_basic(self):
@@ -149,6 +146,20 @@ class ComposeTests(unittest.TestCase):
             return x+'3'
         self.assertEqual(compose(P1,P2,P3)('Z='), 'Z=123')
         self.assertEqual(compose(P3, P1, P2)(''), '312')
+
+class CallTests(unittest.TestCase):
+    def test_call_decorator_simple(self):
+        @call('john')
+        def say_hi(name, extra=""):
+            return "Hello " + name + extra
+            
+        self.assert_( say_hi == "Hello john")
+    
+    def test_call_decorator_complex(self):
+        @call('john', '--extra--')
+        def say_hi(name, extra=""):
+            return "Hello " + name + extra
+        self.assert_(say_hi == "Hello john--extra--")   
 
 
 
