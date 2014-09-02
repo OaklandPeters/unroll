@@ -9,6 +9,7 @@ The most common use-case is the ``@unroll`` decorator, for writing the equivalen
 	def evens():
 	    for i in range(5):
 	        yield 2*i
+	        
 	assert callable(evens)
 	assert evens() == [0, 2, 4, 6, 8]
 
@@ -17,7 +18,8 @@ For an even more direct equivalent to multi-line comprehensions, try the ``@comp
 	@compr(list)
 	def evens():
 		for i in range(5):
-		yield 2*i
+			yield 2*i
+			
 	assert isinstance(evens, list)
 	assert evens == [0, 2, 4, 6, 8]
 

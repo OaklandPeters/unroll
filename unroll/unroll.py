@@ -3,7 +3,7 @@
 """
     unroll
     ~~~~~~~~~~~~~~~~
-Tool for writing multi-line comprehensions in Python.
+A tool for writing multi-line comprehensions in Python.
 
 Inspired and modified form the @unroll decorator, as presented by Steve Wedig.
 Available at: http://code.google.com/p/lingospot/
