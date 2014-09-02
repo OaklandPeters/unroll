@@ -4,8 +4,7 @@ Unroll
 A core vernacular tool, for everyday Python programming.
 The most common use-case is in writing the equivalent of multi-line comprehensions.
 
-
-.. code:: python
+::
 	@unroll(list)
 	def evens():
 	    for i in range(5):
@@ -15,7 +14,7 @@ The most common use-case is in writing the equivalent of multi-line comprehensio
 
 For an even more direct equivalent, use:
 
-.. code:: python	
+::	
 	@compr(list)
 	def evens():
 		for i in range(5):
