@@ -15,9 +15,9 @@ The most common use-case is the ``@unroll`` decorator, for writing the equivalen
 	assert callable(evens)
 	assert evens() == [0, 2, 4, 6, 8]
 
-The argument into decorator determines the type of comprehension. Use ``list`` for a list-comprehension, ``dict`` for a dict-comprehension (this works in Python 2.6), and ``iter`` for generators (this is the default if nothing is provided.
+The argument into decorator determines the type of comprehension. Use ``list`` for a list-comprehension, ``dict`` for a dict-comprehension (this works in Python 2.6), and ``iter`` for generators (default).
 
-For an even more direct equivalent to multi-line comprehensions, try the &#64;``@ compr`` decorator, which immediately invokes the resulting function, resulting in a variable rather than a function::
+For an even more direct equivalent to multi-line comprehensions, try the ``@ compr`` decorator, which immediately invokes the resulting function, resulting in a variable rather than a function::
 
 	@compr(list)
 	def evens():
