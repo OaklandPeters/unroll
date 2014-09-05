@@ -1,6 +1,6 @@
 
 Unroll
-====
+======
 Multi-line comprehensions; Python 2/3 compatible; list-comprehensions, generators, dict-comprehensions, and more.
 
 Unroll is a 'vernacular' tool, intended for everyday Python programming.
@@ -17,9 +17,7 @@ The most common use-case is the ``@unroll`` decorator, for writing the equivalen
 
 The argument into decorator determines the type of comprehension. Use ``list`` for a list-comprehension, ``dict`` for a dict-comprehension (this works in Python 2.6), and ``iter`` for generators (this is the default if nothing is provided.
 
-This should be a user page: @jespern.
-
-For an even more direct equivalent to multi-line comprehensions, try the ``@compr`` decorator, which immediately invokes the resulting function, resulting in a variable rather than a function::
+For an even more direct equivalent to multi-line comprehensions, try the ``\@compr`` decorator, which immediately invokes the resulting function, resulting in a variable rather than a function::
 
 	@compr(list)
 	def evens():
