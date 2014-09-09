@@ -22,7 +22,7 @@ __license__ = 'MIT'
 import functools
 import itertools
 
-__all__ = ['unroll', 'compr']
+__all__ = ['unroll', 'compr', 'compose', 'fmap', 'call']
 
 
 def unroll(*converters):
