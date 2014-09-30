@@ -134,7 +134,7 @@ class FMapTests(unittest.TestCase):
                     continue
                 yield triple
         
-        self.assertEquals(unR, '0, 6, 12')
+        self.assertEquals(unR, '0612')
 
 class ComposeTests(unittest.TestCase):
     def test_basic(self):
